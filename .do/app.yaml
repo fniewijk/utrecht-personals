@@ -5,7 +5,7 @@ services:
     repo: your-username/utrecht-personals
     branch: main
   source_dir: /
-  dockerfile_path: dockerfile
+  dockerfile_path: Dockerfile
   http_port: 80
   instance_count: 1
   instance_size_slug: basic-xxs
