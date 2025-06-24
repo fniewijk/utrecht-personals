@@ -3,15 +3,13 @@ services:
 - name: web
   github:
     repo: your-username/utrecht-personals
-    branch: main
+    branch: master
   source_dir: /
   dockerfile_path: Dockerfile
   http_port: 80
   instance_count: 1
   instance_size_slug: basic-xxs
+  health_check:
+    http_path: /health
   routes:
   - path: /
-domains:
-- domain: utrecht-personals.com
-  type: PRIMARY
-  zone: utrecht-personals.com

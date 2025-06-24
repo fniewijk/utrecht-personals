@@ -1,12 +1,12 @@
-# Multi-stage build for production
-FROM node:18-alpine as build
+# Simple single-stage build for DigitalOcean
+FROM node:18-alpine
 
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 
-# Install ALL dependencies using npm ci for reproducible builds
+# Install dependencies
 RUN npm ci
 
 # Copy source code
@@ -15,15 +15,10 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Production stage
-FROM nginx:alpine
-
-# Copy build files to nginx
-COPY --from=build /app/build /usr/share/nginx/html
-
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Install serve to serve the built app
+RUN npm install -g serve
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+# Serve the built app on port 80
+CMD ["serve", "-s", "build", "-l", "80"]
